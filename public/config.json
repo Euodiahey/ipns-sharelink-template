@@ -45,7 +45,7 @@
               "type":"text",
               "key":"ipnsGateway",
               "value":"",
-              "placeholder":"Enter the IPNS gateway"
+              "placeholder":"Enter the IPNS gateway,like https://4everland.io/"
           }
        ],
        "tag": "IPNS Resource Settings"
@@ -57,7 +57,7 @@
               "type":"text",
               "key":"ipfsGateway",
               "value":"",
-              "placeholder":"Enter the IPFS gateway"
+              "placeholder":"Enter the IPFS gateway,like https://ipfs.4everland.io/"
           }
        ],
        "tag": "IPNS Resource Settings"
