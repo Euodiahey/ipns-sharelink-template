@@ -1,6 +1,6 @@
 <template>
   <div class="project-header al-c space-btw">
-    <div class="info al-c">
+    <div class="info al-c cursor-p" @click="handleClick">
       <el-image
         :src="projectInfo.avatar"
         fit="cover"
@@ -49,6 +49,9 @@ export default {
   methods: {
     onInput(val) {
       this.$emit("onKeyword", val);
+    },
+    handleClick() {
+      this.$router.push("/ipns-resolve");
     },
   },
 };

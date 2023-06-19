@@ -23,7 +23,7 @@
       </div>
       <div class="project-header">
         <h3 class="title">{{ projectInfo.websiteName }}</h3>
-        <div class="desc mt-4 fz-16">
+        <div class="desc mt-4 fz-16 ta-c">
           {{ projectInfo.bio }}
         </div>
       </div>
