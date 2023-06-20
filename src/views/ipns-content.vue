@@ -5,7 +5,7 @@
       <div class="control-bar al-c space-btw">
         <div class="all-checked">
           <span style="color: #8c8ca1">{{
-            this.hasMore ? "Loading..." : this.list.length + " items"
+            !this.list.length ? "Loading..." : this.list.length + " items"
           }}</span>
         </div>
         <div class="right-bar al-c">
@@ -99,15 +99,13 @@ export default {
         return ipfsGateway + "/ipfs/";
       }
 
-      return "https://ipfs.4everland.io/ipfs/";
+      return "https://yelongqing.4everland.link/ipfs/";
     },
     list() {
       let reg = new RegExp(this.searchKey);
       return this.dir.filter((it) => {
-        // console.log(it.name);
-
-        if (it && it.name) {
-          return reg.test(it.name);
+        if (it && (it.name || it.Name)) {
+          return reg.test(it.name || it.Name);
         }
         return false;
       });
@@ -118,7 +116,7 @@ export default {
   },
   methods: {
     readCid() {
-      let re = pathToRegexp("/ipns-content/:cid+");
+      let re = pathToRegexp("/ipfs/:cid+");
       let match = re.exec(this.$route.path);
       let arr = match[1].split("/");
       this.cid = arr[arr.length - 1];

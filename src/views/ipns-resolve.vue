@@ -130,7 +130,7 @@ export default {
         // console.log(hashPath);
         this.$loading().close();
         let hash = hashPath.replace("/ipfs/", "");
-        this.$router.push(`/ipns-content/${hash}`);
+        this.$router.push(`/ipfs/${hash}`);
       } catch (error) {
         // throw new Error(error.message);
         console.log(error);

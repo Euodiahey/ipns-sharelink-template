@@ -6,11 +6,13 @@
       </template>
     </el-table-column>
     <el-table-column prop="fileSize" label="FileSize" width="130">
+      <template slot-scope="{ row }">{{ row.size || row.Tsize }}</template>
     </el-table-column>
   </el-table>
 </template>
 
 <script>
+import { getFileSize } from "@/utils/utils";
 import imgViewList from "./img-view-list.vue";
 export default {
   components: {
@@ -23,6 +25,9 @@ export default {
         return [];
       },
     },
+  },
+  methods: {
+    getFileSize: getFileSize,
   },
 };
 </script>

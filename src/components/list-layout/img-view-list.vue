@@ -54,7 +54,9 @@
     <div class="file al-c f-center ml-4" style="width: 100px" v-else>
       <loading-cpm></loading-cpm>
     </div>
-    <div class="ml-4 fw-b" style="color: #0e0e2c">{{ info.name }}</div>
+    <div class="ml-4 fw-b" style="color: #0e0e2c">
+      {{ info.name || info.Name }}
+    </div>
   </div>
 </template>
 
@@ -107,7 +109,7 @@ export default {
   },
   methods: {
     handleFolder() {
-      this.$router.push("/ipns-content/" + this.info.cidPath);
+      this.$router.push("/ipfs/" + this.info.cidPath);
     },
     reloadImg() {
       this.date = "?t=" + +new Date();
