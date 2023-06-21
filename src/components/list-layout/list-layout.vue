@@ -1,14 +1,23 @@
 <template>
-  <el-table :data="list" style="width: 100%" empty-text="empty">
-    <el-table-column prop="name" label="name">
-      <template slot-scope="{ row }">
-        <img-view-list :info="row"></img-view-list>
+  <div>
+    <div class="pc-table">
+      <el-table :data="list" style="width: 100%" empty-text="empty">
+        <el-table-column prop="name" label="Name">
+          <template slot-scope="{ row }">
+            <img-view-list :info="row"></img-view-list>
+          </template>
+        </el-table-column>
+        <el-table-column prop="fileSize" label="FileSize" width="130">
+          <template slot-scope="{ row }">{{ row.Tsize }}</template>
+        </el-table-column>
+      </el-table>
+    </div>
+    <div class="mobile">
+      <template v-for="(item, idx) in list">
+        <img-view-list :info="item" :key="idx"></img-view-list>
       </template>
-    </el-table-column>
-    <el-table-column prop="fileSize" label="FileSize" width="130">
-      <template slot-scope="{ row }">{{ row.size || row.Tsize }}</template>
-    </el-table-column>
-  </el-table>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -32,4 +41,16 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@media screen and (max-width: 768px) {
+  .mobile {
+    display: block !important;
+  }
+  .pc-table {
+    display: none !important;
+  }
+}
+.mobile {
+  display: none;
+}
+</style>

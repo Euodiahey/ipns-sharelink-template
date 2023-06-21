@@ -1,5 +1,6 @@
 <template>
   <div class="index-container">
+    <div class="bg"></div>
     <div class="project-nav">
       <div class="avatar">
         <el-image
@@ -32,14 +33,18 @@
           v-if="projectInfo.displaySwitch"
           class="resolve-ipt"
           v-model="ipns"
-          placeholder="Please enter IPNS"
+          placeholder="Please enter IPNS/Root CID"
           @keyup.enter.native="handleResolveIpns"
         >
           <img
             slot="suffix"
             @click="handleResolveIpns"
             class="input-suffix-btn"
-            src="../assets/right-search-arrow.svg"
+            :src="
+              ipns
+                ? require('../assets/right-arrow.svg')
+                : require('../assets/right-search-arrow.svg')
+            "
             width="20"
             alt=""
           />
@@ -85,6 +90,7 @@ export default {
       refRequestId: null,
     };
   },
+
   computed: {
     ...mapState({
       projectInfo: (s) => s.projectInfo,
@@ -102,11 +108,23 @@ export default {
   methods: {
     handleResolveIpns() {
       if (!this.ipns) return;
-      this.resolveIpns(this.ipns.trim());
+      const hash = this.ipns.trim();
+      const isRootCid = /^(Qm[a-zA-Z0-9]{44}|b[A-Za-z0-9]{58})$/.test(hash);
+      if (isRootCid) {
+        this.$router.push(`/ipfs/${hash}`);
+      } else {
+        this.resolveIpns(hash);
+      }
     },
     handleResolveOptionIpns(ipns) {
       if (!ipns) return;
-      this.resolveIpns(ipns);
+      const hash = ipns.trim();
+      const isRootCid = /^(Qm[a-zA-Z0-9]{44}|b[A-Za-z0-9]{58})$/.test(hash);
+      if (isRootCid) {
+        this.$router.push(`/ipfs/${hash}`);
+      } else {
+        this.resolveIpns(hash);
+      }
     },
     async resolveIpns(ipns) {
       this.$loading();
@@ -155,11 +173,38 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@media screen and (max-width: 768px) {
+  .project-content {
+    padding: 20px 20px 0 !important;
+    height: 300px;
+  }
+  .project-header {
+    height: 160px !important;
+  }
+  .avatar {
+    width: 80px !important;
+    height: 80px !important;
+  }
+  .title {
+    margin-top: 45px !important;
+    font-size: 20px !important;
+  }
+  .desc {
+    margin-top: 8px !important;
+    padding: 0 20px !important;
+    font-size: 14px !important;
+    -webkit-line-clamp: 3 !important;
+  }
+  .ipns-item {
+    margin-bottom: 15px !important;
+  }
+}
 .input-suffix-btn {
   margin-right: 10px;
   vertical-align: bottom;
   cursor: pointer;
 }
+
 ::v-deep .el-input__suffix {
   display: flex;
   align-items: center;
@@ -168,19 +213,29 @@ export default {
   height: 60px;
   line-height: 60px;
   font-size: 16px;
+  border-radius: 8px;
 }
 .index-container {
+  position: relative;
   width: 100%;
   height: 100%;
-  background: no-repeat url("../assets/bg.png");
-  background-size: 100% 100%;
   overflow: hidden;
   padding: 80px 20px;
   box-sizing: border-box;
+  .bg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background: no-repeat url("../assets/bg.png");
+    background-size: 100% 100%;
+  }
   .project-nav {
     position: relative;
     max-width: 758px;
     height: 100%;
+    min-height: 600px;
     margin: 0 auto 0;
     background: rgba(255, 255, 255, 0.75);
     box-shadow: 0px 4px 24px rgba(14, 14, 44, 0.05);
@@ -202,8 +257,7 @@ export default {
           rgba(255, 255, 255, 0.75)
         ),
         rgba(0, 122, 255, 0.2);
-      border-radius: 12px;
-
+      border-radius: 12px 12px 0 0;
       overflow: hidden;
       .title {
         margin-top: 100px;
@@ -219,7 +273,7 @@ export default {
         text-overflow: ellipsis;
         display: -webkit-box;
         -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2; /* 超出几行省略 */
+        -webkit-line-clamp: 2;
         overflow: hidden;
       }
     }
@@ -228,11 +282,10 @@ export default {
       height: calc(100% - 248px);
       box-sizing: border-box;
       overflow: auto;
-
       .or {
         padding: 20px 0;
         text-align: center;
-        font-size: 18px;
+        font-size: 16px;
       }
       .ipns-item {
         display: flex;
@@ -243,7 +296,7 @@ export default {
         height: 60px;
         margin-bottom: 30px;
         color: #0e0e2c;
-        font-size: 14px;
+        font-size: 16px;
         box-sizing: border-box;
         background: rgba(30, 80, 255, 0.05);
         border: 1px solid rgba(140, 140, 161, 0.05);

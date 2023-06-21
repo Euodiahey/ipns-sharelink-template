@@ -46,10 +46,14 @@ class ReadRootCID {
       });
       console.log(result, "result");
       if (!result.node.Links) {
-        throw new Error("the cid is not root cid");
+        throw new Error(
+          "The parsing result of the CID is not a directory structure and cannot be accessed."
+        );
       }
       if (result.node.Links.length == 256) {
-        throw new Error("the cid file to large");
+        // throw new Error(
+        //   "The file associated with the CID is too large to be accessed."
+        // );
       } else {
         this.dir = result.node.Links.map((it) => {
           return {

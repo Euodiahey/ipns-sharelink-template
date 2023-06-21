@@ -98,8 +98,7 @@ export default {
         if (i == ipfsGateway.length - 1) return ipfsGateway + "ipfs/";
         return ipfsGateway + "/ipfs/";
       }
-
-      return "https://yelongqing.4everland.link/ipfs/";
+      return "https://ipfs.4everland.io/ipfs/";
     },
     list() {
       let reg = new RegExp(this.searchKey);
@@ -149,6 +148,7 @@ export default {
     padding: 20px !important;
   }
   .right-bar {
+    padding: 0 !important;
     border: none !important;
   }
 }

@@ -1,10 +1,6 @@
 <template>
-  <div class="al-c cursor-p" @click="handleClick">
-    <div
-      class="file al-c f-center ml-4 pos-r"
-      style="width: 100px"
-      v-if="!loading"
-    >
+  <div class="al-c cursor-p" @click="handleClick" style="width: 100%">
+    <div class="file al-c f-center pos-r" style="width: 100px" v-if="!loading">
       <template v-if="fileType == 'image'">
         <el-image
           :src="imgSrc"
@@ -54,8 +50,9 @@
     <div class="file al-c f-center ml-4" style="width: 100px" v-else>
       <loading-cpm></loading-cpm>
     </div>
-    <div class="ml-4 fw-b" style="color: #0e0e2c">
-      {{ info.name || info.Name }}
+    <div class="ml-4 file-info" style="color: #0e0e2c">
+      <div class="fw-b file-name">{{ info.name || info.Name }}</div>
+      <div class="size mt-1 fz-14">{{ info.Tsize }}</div>
     </div>
   </div>
 </template>
@@ -122,7 +119,24 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@media screen and (max-width: 768px) {
+  .size {
+    display: block !important;
+  }
+}
 ::v-deep .el-checkbox__label {
   display: none;
+}
+.file-info {
+  overflow: hidden;
+}
+.file-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.size {
+  display: none;
+  font-size: 14px;
+  color: #8c8ca1;
 }
 </style>
