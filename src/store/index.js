@@ -55,6 +55,10 @@ const store = new Vuex.Store({
           });
         });
         commit("SET_PROJECTINFO", configObj);
+        let websiteNameObj = data.config.filter((it) => {
+          return it.name == "Website Name";
+        });
+        document.title = websiteNameObj[0].options[0].value || "IPNS LinkShare";
       } catch (error) {
         console.log(error);
       }
