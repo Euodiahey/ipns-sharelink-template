@@ -51,7 +51,7 @@ export default {
       this.$emit("onKeyword", val);
     },
     handleClick() {
-      this.$router.push("/ipns-resolve");
+      this.$router.push("/");
     },
   },
 };

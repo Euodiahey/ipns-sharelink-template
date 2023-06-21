@@ -6,16 +6,12 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    redirect: "/ipns-resolve",
-  },
-  {
-    path: "/ipns-resolve",
     name: "ipns",
     component: () => import("../views/ipns-resolve.vue"),
   },
   {
-    path: "/ipns-content/:cid+",
-    name: "ipns-content",
+    path: "/ipfs/:cid+",
+    name: "ipfs",
     component: () => import("../views/ipns-content.vue"),
   },
 ];

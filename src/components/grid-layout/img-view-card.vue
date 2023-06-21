@@ -51,13 +51,15 @@
     </div>
 
     <div class="fz-14 ta-c mt-3">
-      <p class="name">{{ info.name }}</p>
-      <p class="size">{{ info.fileSize }}</p>
+      <p class="name">{{ info.name || info.Name }}</p>
+      <p class="size">{{ info.fileSize || info.Tsize }}</p>
     </div>
   </div>
 </template>
 
 <script>
+import { getFileSize } from "@/utils/utils";
+
 import LoadingCpm from "@/components/loading-cpm.vue";
 export default {
   components: {
@@ -105,14 +107,15 @@ export default {
     },
   },
   methods: {
+    getFileSize: getFileSize,
     handleFolder() {
-      this.$router.push("/ipns-content/" + this.info.cidPath);
+      this.$router.push("/ipfs/" + this.info.cidPath);
     },
     reloadImg() {
       this.date = "?t=" + +new Date();
     },
     handleClick() {
-      window.open(this.info.pathV2);
+      window.open(this.info.pathV2 || this.info.Hash.toString());
     },
   },
 };

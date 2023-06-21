@@ -44,7 +44,25 @@ class ReadRootCID {
         blockReadConcurrency: 10,
         timeout: 10000,
       });
-      // console.log(result, "result");
+      console.log(result, "result");
+      if (!result.node.Links) {
+        throw new Error(
+          "The parsing result of the CID is not a directory structure and cannot be accessed."
+        );
+      }
+      if (result.node.Links.length == 256) {
+        // throw new Error(
+        //   "The file associated with the CID is too large to be accessed."
+        // );
+      } else {
+        this.dir = result.node.Links.map((it) => {
+          return {
+            Name: it.Name,
+            Tsize: getFileSize(it.Tsize),
+            pathV2: this.gateway + it.Hash.toString(),
+          };
+        });
+      }
       this.extension = this._fileExtension(result.name);
       this.self = result;
       await this.traversalDirectory(result);
@@ -115,8 +133,10 @@ class ReadRootCID {
         state: "failed",
       };
     }
+
     files.push(chunk1);
-    this.dir.splice(this.offset, this.limit, ...files);
+    let file = Object.assign(chunk1, this.dir[this.offset]);
+    this.dir.splice(this.offset, this.limit, file);
     let length = 1000;
     if (result.node) {
       length = result.node.Links.length;
