@@ -21,6 +21,8 @@ import {
 import "element-ui/lib/theme-chalk/index.css";
 import "./css/style.scss";
 import VirtualCollection from "vue-virtual-collection";
+import VueClipboard from "vue-clipboard2";
+Vue.use(VueClipboard);
 Vue.use(VirtualCollection);
 Vue.use(Image);
 Vue.use(Card);

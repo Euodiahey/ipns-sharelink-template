@@ -72,7 +72,7 @@ class ReadRootCID {
     }
   }
   async getNextPage() {
-    if (!this.self) return (this.hasMore = false);
+    if (!this.self || !this.hasMore) return (this.hasMore = false);
     await this.traversalDirectory(this.self);
   }
   async traversalDirectory(result) {

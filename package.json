@@ -17,6 +17,7 @@
     "magic-bytes.js": "^1.0.14",
     "path-to-regexp": "^6.2.1",
     "vue": "^2.6.14",
+    "vue-clipboard2": "^0.3.3",
     "vue-router": "^3.5.1",
     "vue-virtual-collection": "^1.5.0",
     "vue-virtual-scroll-list": "^2.3.5",

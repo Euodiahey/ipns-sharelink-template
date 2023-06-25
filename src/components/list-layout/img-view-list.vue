@@ -27,7 +27,7 @@
 
       <img
         v-else-if="fileType == 'directory'"
-        @click="handleFolder"
+        @click.stop="handleFolder"
         src="@/assets/fold.svg"
         width="100"
         alt=""
@@ -53,6 +53,16 @@
     <div class="ml-4 file-info" style="color: #0e0e2c">
       <div class="fw-b file-name">{{ info.name || info.Name }}</div>
       <div class="size mt-1 fz-14">{{ info.Tsize }}</div>
+    </div>
+    <div class="ml-4 mobile-copy">
+      <img
+        class="cursor-p"
+        src="@/assets/copy.svg"
+        width="20"
+        alt=""
+        v-clipboard:copy="info.cidPath"
+        v-clipboard:success="onCopy"
+      />
     </div>
   </div>
 </template>
@@ -106,7 +116,10 @@ export default {
   },
   methods: {
     handleFolder() {
-      this.$router.push("/ipfs/" + this.info.cidPath);
+      this.$store.state.reader.hasMore = false;
+      setTimeout(() => {
+        this.$router.push("/ipfs/" + this.info.cidPath);
+      }, 2000);
     },
     reloadImg() {
       this.date = "?t=" + +new Date();
@@ -114,17 +127,27 @@ export default {
     handleClick() {
       window.open(this.info.pathV2);
     },
+    onCopy() {
+      this.$message({
+        message: "IPFS CID copied!",
+        type: "success",
+      });
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 @media screen and (max-width: 768px) {
-  .size {
+  .size,
+  .mobile-copy {
     display: block !important;
   }
 }
 ::v-deep .el-checkbox__label {
+  display: none;
+}
+.mobile-copy {
   display: none;
 }
 .file-info {
