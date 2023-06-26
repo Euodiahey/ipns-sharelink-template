@@ -7,7 +7,10 @@
       v-for="(item, index) in list"
       :key="index"
     >
-      <img-view-card :info="item"></img-view-card>
+      <img-view-card
+        :info="item"
+        @click.native="handleRowClick(item)"
+      ></img-view-card>
     </el-col>
   </el-row>
 </template>
@@ -24,6 +27,16 @@ export default {
       default: () => {
         return [];
       },
+    },
+  },
+  methods: {
+    handleRowClick(item) {
+      console.log(item);
+      if (item.type && item.type == "directory") {
+        this.$router.push("/ipfs/" + item.cidPath);
+      } else {
+        window.open(item.pathV1);
+      }
     },
   },
 };

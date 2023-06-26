@@ -59,6 +59,8 @@ class ReadRootCID {
           return {
             Name: it.Name,
             Tsize: getFileSize(it.Tsize),
+            Hash: it.Hash.toString(),
+            pathV1: this.gateway + result.path + "/" + it.Name,
             pathV2: this.gateway + it.Hash.toString(),
           };
         });

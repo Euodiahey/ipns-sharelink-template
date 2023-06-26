@@ -1,26 +1,32 @@
 <template>
   <div>
     <div class="pc-table">
-      <el-table :data="list" style="width: 100%" empty-text="empty">
+      <el-table
+        :data="list"
+        style="width: 100%"
+        empty-text="empty"
+        @row-click="handleRowClick"
+      >
         <el-table-column prop="name" label="Name">
           <template slot-scope="{ row }">
             <img-view-list :info="row"></img-view-list>
           </template>
         </el-table-column>
 
-        <el-table-column prop="fileSize" label="FileSize" width="400">
+        <el-table-column prop="fileSize" label="FileSize" width="300">
           <template slot-scope="{ row }">{{ row.Tsize }}</template>
         </el-table-column>
-        <el-table-column prop="cidPath" label="CID" width="400">
+        <el-table-column label="CID" width="200">
           <template slot-scope="{ row }">
             <div class="al-c">
-              <span class="cid">{{ row.cidPath }}</span>
+              <span class="cid">{{ row.Hash.toString().cutStr(10, 4) }}</span>
               <img
-                class="ml-4 cursor-p"
+                class="ml-2 cursor-p"
                 src="@/assets/copy.svg"
                 width="20"
                 alt=""
-                v-clipboard:copy="row.cidPath"
+                @click.stop
+                v-clipboard:copy="row.Hash.toString()"
                 v-clipboard:success="onCopy"
               />
             </div>
@@ -59,6 +65,14 @@ export default {
         type: "success",
       });
     },
+    handleRowClick(row) {
+      console.log(row);
+      if (row.type && row.type == "directory") {
+        this.$router.push("/ipfs/" + row.cidPath);
+      } else {
+        window.open(row.pathV1);
+      }
+    },
   },
 };
 </script>
@@ -76,7 +90,7 @@ export default {
   display: none;
 }
 .cid {
-  flex: 1;
+  width: 130px;
   display: block;
   white-space: nowrap;
   overflow: hidden;

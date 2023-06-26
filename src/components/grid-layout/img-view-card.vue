@@ -1,5 +1,5 @@
 <template>
-  <div class="box-card cursor-p" @click="handleClick">
+  <div class="box-card cursor-p">
     <div v-if="!loading" class="file ov-h al-c f-center mt-2 pos-r">
       <template v-if="fileType == 'image'">
         <el-image
@@ -26,7 +26,6 @@
       </template>
       <img
         v-else-if="fileType == 'directory'"
-        @click.stop="handleFolder"
         src="@/assets/fold.svg"
         height="100%"
         alt=""
@@ -108,14 +107,8 @@ export default {
   },
   methods: {
     getFileSize: getFileSize,
-    handleFolder() {
-      this.$router.push("/ipfs/" + this.info.cidPath);
-    },
     reloadImg() {
       this.date = "?t=" + +new Date();
-    },
-    handleClick() {
-      window.open(this.info.pathV2 || this.info.Hash.toString());
     },
   },
 };

@@ -1,6 +1,6 @@
 <template>
   <div class="index-container">
-    <div class="bg"></div>
+    <!-- <div class="bg"></div> -->
     <div class="project-nav">
       <div class="avatar">
         <el-image
@@ -22,10 +22,23 @@
           </div>
         </el-image>
       </div>
-      <div class="project-header">
+      <div class="project-header h-flex al-c" :class="{ expansion: expansion }">
         <h3 class="title">{{ projectInfo.websiteName }}</h3>
-        <div class="desc mt-4 fz-16 ta-c">
+        <div
+          class="desc mt-4 fz-16 ta-c"
+          ref="bio"
+          id="bio"
+          :class="{ expansion: expansion }"
+        >
           {{ projectInfo.bio }}
+        </div>
+        <div class="mt-4 py-3 expansion-btn" v-if="overflow">
+          <i
+            style="color: #0e0e2c"
+            class="cursor-p px-5"
+            :class="expansion ? 'el-icon-caret-top' : 'el-icon-caret-bottom'"
+            @click="expansion = !expansion"
+          ></i>
         </div>
       </div>
       <div class="project-content">
@@ -88,9 +101,10 @@ export default {
       ipns: "",
       requestMap: new Map(),
       refRequestId: null,
+      expansion: false,
+      overflow: false,
     };
   },
-
   computed: {
     ...mapState({
       projectInfo: (s) => s.projectInfo,
@@ -104,6 +118,13 @@ export default {
       }
       return "https://4everland.io/ipns/";
     },
+  },
+  mounted() {
+    this.isOverflow();
+    window.addEventListener("resize", this.isOverflow);
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.isOverflow);
   },
   methods: {
     handleResolveIpns() {
@@ -159,6 +180,13 @@ export default {
     handleLink() {
       window.open("https://dashboard.4everland.org/hosting/new");
     },
+    isOverflow() {
+      if (this.$refs.bio.scrollHeight > this.$refs.bio.clientHeight) {
+        this.overflow = true;
+      } else {
+        this.overflow = false;
+      }
+    },
   },
   watch: {
     refRequestId(newVal, oldVal) {
@@ -173,13 +201,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.desc.expansion {
+  height: auto !important;
+  -webkit-line-clamp: initial !important;
+  text-overflow: initial !important;
+  overflow: initial !important;
+}
+
 @media screen and (max-width: 768px) {
   .project-content {
     padding: 20px 20px 0 !important;
-    height: 300px;
-  }
-  .project-header {
-    height: 160px !important;
   }
   .avatar {
     width: 80px !important;
@@ -190,10 +221,17 @@ export default {
     font-size: 20px !important;
   }
   .desc {
+    height: 60px !important;
     margin-top: 8px !important;
     padding: 0 20px !important;
     font-size: 14px !important;
     -webkit-line-clamp: 3 !important;
+  }
+  .desc.expansion {
+    height: auto !important;
+    -webkit-line-clamp: initial !important;
+    text-overflow: initial !important;
+    overflow: initial !important;
   }
   .ipns-item {
     margin-bottom: 15px !important;
@@ -218,24 +256,14 @@ export default {
 .index-container {
   position: relative;
   width: 100%;
-  height: 100%;
-  overflow: hidden;
+  min-height: 100%;
+  background: no-repeat url("../assets/bg.png");
+  background-size: 100% 100%;
   padding: 80px 20px;
   box-sizing: border-box;
-  .bg {
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    background: no-repeat url("../assets/bg.png");
-    background-size: 100% 100%;
-  }
   .project-nav {
     position: relative;
     max-width: 758px;
-    height: 100%;
-    min-height: 600px;
     margin: 0 auto 0;
     background: rgba(255, 255, 255, 0.75);
     box-shadow: 0px 4px 24px rgba(14, 14, 44, 0.05);
@@ -243,14 +271,13 @@ export default {
     .avatar {
       position: absolute;
       left: 50%;
-      top: -6%;
+      top: -50px;
       transform: translateX(-50%);
       width: 120px;
       height: 120px;
       border-radius: 50%;
     }
     .project-header {
-      height: 248px;
       background: linear-gradient(
           0deg,
           rgba(255, 255, 255, 0.75),
@@ -259,6 +286,11 @@ export default {
         rgba(0, 122, 255, 0.2);
       border-radius: 12px 12px 0 0;
       overflow: hidden;
+      .expansion-btn {
+        text-align: center;
+        width: 100%;
+        background: #eff6fe;
+      }
       .title {
         margin-top: 100px;
         font-size: 40px;
@@ -266,20 +298,22 @@ export default {
         text-align: center;
       }
       .desc {
+        height: 40px;
         padding: 0 64px;
+        box-sizing: border-box;
         color: #8c8ca1;
         line-height: 20px;
-        word-break: break-all;
         text-overflow: ellipsis;
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
         overflow: hidden;
+        // transition: height 0.6s ease-out;
       }
     }
     .project-content {
+      min-height: calc(100vh - 370px);
       padding: 40px 64px 0;
-      height: calc(100% - 248px);
       box-sizing: border-box;
       overflow: auto;
       .or {

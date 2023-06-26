@@ -1,5 +1,5 @@
 <template>
-  <div class="al-c cursor-p" @click="handleClick" style="width: 100%">
+  <div class="al-c cursor-p" style="width: 100%">
     <div class="file al-c f-center pos-r" style="width: 100px" v-if="!loading">
       <template v-if="fileType == 'image'">
         <el-image
@@ -27,7 +27,6 @@
 
       <img
         v-else-if="fileType == 'directory'"
-        @click.stop="handleFolder"
         src="@/assets/fold.svg"
         width="100"
         alt=""
@@ -115,17 +114,8 @@ export default {
     },
   },
   methods: {
-    handleFolder() {
-      this.$store.state.reader.hasMore = false;
-      setTimeout(() => {
-        this.$router.push("/ipfs/" + this.info.cidPath);
-      }, 2000);
-    },
     reloadImg() {
       this.date = "?t=" + +new Date();
-    },
-    handleClick() {
-      window.open(this.info.pathV2);
     },
     onCopy() {
       this.$message({
