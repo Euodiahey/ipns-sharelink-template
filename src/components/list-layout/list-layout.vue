@@ -36,7 +36,12 @@
     </div>
     <div class="mobile">
       <template v-for="(item, idx) in list">
-        <img-view-list :info="item" :key="idx"></img-view-list>
+        <img-view-list
+          class="mb-5"
+          :info="item"
+          :key="idx"
+          @click.native="handleRowClick(item)"
+        ></img-view-list>
       </template>
     </div>
   </div>

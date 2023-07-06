@@ -53,12 +53,13 @@
       <div class="fw-b file-name">{{ info.name || info.Name }}</div>
       <div class="size mt-1 fz-14">{{ info.Tsize }}</div>
     </div>
-    <div class="ml-4 mobile-copy">
+    <div class="mobile-copy ml-auto">
       <img
         class="cursor-p"
         src="@/assets/copy.svg"
         width="20"
         alt=""
+        @click.stop
         v-clipboard:copy="info.cidPath"
         v-clipboard:success="onCopy"
       />

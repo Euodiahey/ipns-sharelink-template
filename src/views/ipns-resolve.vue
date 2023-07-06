@@ -122,6 +122,10 @@ export default {
   mounted() {
     this.isOverflow();
     window.addEventListener("resize", this.isOverflow);
+    // this.$nextTick(() => {
+    //   this.isOverflow();
+    //   window.addEventListener("resize", this.isOverflow);
+    // });
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.isOverflow);
@@ -203,6 +207,7 @@ export default {
 <style lang="scss" scoped>
 .desc.expansion {
   height: auto !important;
+  display: block !important;
   -webkit-line-clamp: initial !important;
   text-overflow: initial !important;
   overflow: initial !important;
@@ -304,7 +309,7 @@ export default {
         color: #8c8ca1;
         line-height: 20px;
         text-overflow: ellipsis;
-        display: -webkit-box;
+        // display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
         overflow: hidden;

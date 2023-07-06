@@ -92,7 +92,7 @@ export default {
       projectInfo: (s) => s.projectInfo,
     }),
     ipfsGateway() {
-      console.log(this.projectInfo.ipfsGateway);
+      // console.log(this.projectInfo.ipfsGateway);
       if (this.projectInfo && this.projectInfo.ipfsGateway) {
         let ipfsGateway = this.projectInfo.ipfsGateway.trim();
         let i = ipfsGateway.lastIndexOf("/");
