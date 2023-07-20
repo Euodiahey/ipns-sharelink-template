@@ -1,4 +1,4 @@
-## What's IPNS?
+## What's IPNS? 
 
 Before introducing IPNS, it's important to understand IPFS (InterPlanetary File System). IPFS is a distributed file system used for storing and sharing files, websites, applications, and data. To share a file, users simply upload it to IPFS and obtain a CID (Content Identifier), which can be shared with others. Anyone with the CID can retrieve the file content from the network.
 
